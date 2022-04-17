@@ -1,0 +1,58 @@
+create database store;
+use store;
+/*DDL*/
+create table countries (
+code int primary key ,
+name varchar(20) not null ,
+continent_name varchar(20) unique
+);
+create table users (
+id int primary key ,
+full_name varchar(20) ,
+ email varchar(20) unique ,
+gender char(1) check(gender='M' or gender='F') ,
+date_of_birth varchar(15) ,
+created_at datetime ,
+country_code int ,
+foreign key (country_code) references countries(code)
+ 
+);
+create table orders (
+id int primary key ,
+user_id int ,
+status varchar(6) check(status='start' or status='finish') ,
+created_at datetime ,
+foreign key (user_id) references users(id)
+);
+create table order_products (
+order_id int ,
+product_id int ,
+foreign key (order_id) references orders(id) ,
+quantity int default 0
+);
+create table products (
+id int primary key ,
+name varchar(10) not null ,
+price int default 0 ,
+status varchar(10) check(status='valid' or status='expired'),
+created_at datetime 
+);
+
+
+/* DML */
+insert into users(id,full_name,email,gender,date_of_birth,created_at,country_code)
+value (1,'NourhOmar', 'No@gmail.com','F','31-3-1999',17-4-2022,123);
+insert into countries (code,name,continent_name) values(1,'Nourh','Asia');
+insert into orders values(1,1,'valid',2022-4-17);
+insert into order_products values(1,2,99);
+insert into products values(2,'Bella',998,'expired',2020-06-31);
+update countries 
+set name='not null' where code=1;
+delete from products where id=2;
+alter table products
+modify column created_at datetime default current_timestamp;
+select* from countries;
+select* from users;
+select* from orders;
+select* from order_products;
+select* from products
